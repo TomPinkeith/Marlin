@@ -34,3 +34,8 @@
 #define ORIG_E0_AUTO_FAN_PIN 44
 
 #include "pins_RAMPS.h"
+
+  // Override fan pin =(
+  #undef  FAN_PIN
+  #define FAN_PIN     7
+

@@ -127,9 +127,6 @@
 //  #define MOTHERBOARD BOARD_RAMPS_13_EFB
 //  #define MOTHERBOARD BOARD_TRIGORILLA_13
   #define MOTHERBOARD BOARD_TRIGORILLA_14
-  // Override fan pin =(
-  #define FAN_PIN     7
-
 #endif
 
 // Optional custom name for your RepStrap or other custom machine
