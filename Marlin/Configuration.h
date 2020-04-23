@@ -25,16 +25,16 @@
  * Choose your version:
  */
 // normal size or plus?
-//#define ANYCUBIC_KOSSEL_PLUS
+#define ANYCUBIC_KOSSEL_PLUS
 
 // Anycubic Probe version 1 or 2 see README.md; 0 for no probe
-#define ANYCUBIC_PROBE_VERSION 0
+#define ANYCUBIC_PROBE_VERSION 2
 
 // Heated Bed:
 // 0 ... no heated bed
 // 1 ... aluminium heated bed with "BuildTak-like" sticker
 // 2 ... ultrabase heated bed
-#define ANYCUBIC_KOSSEL_ENABLE_BED 0
+#define ANYCUBIC_KOSSEL_ENABLE_BED 2
 
 /**
  * Configuration.h
@@ -86,7 +86,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "@brandstaetter, @grbd" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "By TomPinkeith" // Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -147,7 +147,7 @@
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "ANYCUBIC Kossel"
+#define CUSTOM_MACHINE_NAME "KLP"
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like http://www.uuidgenerator.net/version4
@@ -653,7 +653,7 @@
   // Make delta curves from many straight lines (linear interpolation).
   // This is a trade-off between visible corners (not enough segments)
   // and processor overload (too many expensive sqrt calls).
-  #define DELTA_SEGMENTS_PER_SECOND 80
+  #define DELTA_SEGMENTS_PER_SECOND 100
 
   // After homing move down to a height where XY movement is unconstrained
   #define DELTA_HOME_TO_SAFE_ZONE
@@ -703,7 +703,7 @@
   #endif
 
   // Distance between bed and nozzle Z home position
-  #define DELTA_HEIGHT 320.00             // (mm) Get this value from G33 auto calibrate
+  #define DELTA_HEIGHT 270.00             // (mm) Get this value from G33 auto calibrate
 
   #define DELTA_ENDSTOP_ADJ { 0.0, 0.0, 0.0 } // Get these values from G33 auto calibrate
 
@@ -765,11 +765,11 @@
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 #define X_MIN_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
 #define Y_MIN_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING (ANYCUBIC_PROBE_VERSION + 0 == 1) // V1 is NO, V2 is NC
+#define Z_MIN_ENDSTOP_INVERTING false  // V1 is NO, V2 is NC
 #define X_MAX_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
 #define Y_MAX_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
 #define Z_MAX_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
-#define Z_MIN_PROBE_ENDSTOP_INVERTING Z_MIN_ENDSTOP_INVERTING
+#define Z_MIN_PROBE_ENDSTOP_INVERTING false
 
 /**
  * Stepper Drivers
@@ -787,9 +787,9 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-//#define X_DRIVER_TYPE  A4988
-//#define Y_DRIVER_TYPE  A4988
-//#define Z_DRIVER_TYPE  A4988
+#define X_DRIVER_TYPE  TMC2208_STANDALONE
+#define Y_DRIVER_TYPE  TMC2208_STANDALONE
+#define Z_DRIVER_TYPE  TMC2208_STANDALONE
 //#define X2_DRIVER_TYPE A4988
 //#define Y2_DRIVER_TYPE A4988
 //#define Z2_DRIVER_TYPE A4988
@@ -855,7 +855,7 @@
 #define XYZ_PULLEY_TEETH 20
 
 // delta speeds must be the same on xyz
-#define DEFAULT_XYZ_STEPS_PER_UNIT ((XYZ_FULL_STEPS_PER_ROTATION) * (XYZ_MICROSTEPS) / double(XYZ_BELT_PITCH) / double(XYZ_PULLEY_TEETH)) // 80
+#define DEFAULT_XYZ_STEPS_PER_UNIT    ((XYZ_FULL_STEPS_PER_ROTATION) * (XYZ_MICROSTEPS) / double(XYZ_BELT_PITCH) / double(XYZ_PULLEY_TEETH)) // 80
 #define DEFAULT_AXIS_STEPS_PER_UNIT   { DEFAULT_XYZ_STEPS_PER_UNIT, DEFAULT_XYZ_STEPS_PER_UNIT, DEFAULT_XYZ_STEPS_PER_UNIT, 96 }  // default steps per unit for Kossel (GT2, 20 tooth)
 
 /**
@@ -863,7 +863,7 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 100, 100, 100, 100}
+#define DEFAULT_MAX_FEEDRATE          { 200, 200, 200, 200}
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -891,9 +891,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION          3000    // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  3000    // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION   3000    // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_ACCELERATION          2000    // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  2000    // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION   2000    // X, Y, Z acceleration for travel (non printing) moves
 
 /**
  * Default Jerk limits (mm/s)
@@ -954,9 +954,9 @@
  *
  * Enable this option for a probe connected to the Z Min endstop pin.
  */
-#if ANYCUBIC_PROBE_VERSION > 0
-  #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
-#endif
+// #if ANYCUBIC_PROBE_VERSION > 0
+//   #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+// #endif
 
 /**
  * Z_MIN_PROBE_PIN
@@ -1124,7 +1124,7 @@
 #define MIN_PROBE_EDGE 15
 
 // X and Y axis travel speed (mm/m) between probes
-#define XY_PROBE_SPEED 6000
+#define XY_PROBE_SPEED 4000
 
 // Feedrate (mm/m) for the first approach when double-probing (MULTIPLE_PROBING == 2)
 #define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
@@ -1141,7 +1141,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-#define MULTIPLE_PROBING 3
+#define MULTIPLE_PROBING 2
 //#define EXTRA_PROBING    1
 
 /**
@@ -1158,15 +1158,15 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   50 // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES 5 // Z Clearance between probe points
-#define Z_CLEARANCE_MULTI_PROBE    5 // Z Clearance between multiple probes
-//#define Z_AFTER_PROBING          5 // Z position after probing is done
+#define Z_CLEARANCE_DEPLOY_PROBE   25 // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_BETWEEN_PROBES 25 // Z Clearance between probe points
+#define Z_CLEARANCE_MULTI_PROBE    25 // Z Clearance between multiple probes
+#define Z_AFTER_PROBING            25 // Z position after probing is done
 
 #define Z_PROBE_LOW_POINT          -5 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
-#define Z_PROBE_OFFSET_RANGE_MIN -40
+#define Z_PROBE_OFFSET_RANGE_MIN -20
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
@@ -1175,7 +1175,7 @@
 #endif
 
 // Before deploy/stow pause for user confirmation
-#define PAUSE_BEFORE_DEPLOY_STOW
+//#define PAUSE_BEFORE_DEPLOY_STOW
 #if ENABLED(PAUSE_BEFORE_DEPLOY_STOW)
   //#define PAUSE_PROBE_DEPLOY_WHEN_TRIGGERED // For Manual Deploy Allenkey Probe
 #endif
@@ -1261,7 +1261,7 @@
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS -(DELTA_PRINTABLE_RADIUS)
 #define Y_MIN_POS -(DELTA_PRINTABLE_RADIUS)
-#define Z_MIN_POS 0
+#define Z_MIN_POS -30
 #define X_MAX_POS DELTA_PRINTABLE_RADIUS
 #define Y_MAX_POS DELTA_PRINTABLE_RADIUS
 #define Z_MAX_POS MANUAL_Z_HOME_POS
@@ -1523,7 +1523,7 @@
 // - Move the Z probe (or nozzle) to a defined XY point before Z Homing when homing all axes (G28).
 // - Prevent Z homing when the Z probe is outside bed area.
 //
-//#define Z_SAFE_HOMING
+#define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
   #define Z_SAFE_HOMING_X_POINT ((X_BED_SIZE) / 2)    // X point for Z homing when homing all axes (G28).
@@ -1531,7 +1531,7 @@
 #endif
 
 // Delta only homes to Z
-#define HOMING_FEEDRATE_Z  (100*60)
+#define HOMING_FEEDRATE_Z  (60*60)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
