@@ -468,7 +468,11 @@ void GcodeSuite::G28() {
   #endif
 
   #if ENABLED(RESTORE_LEVELING_AFTER_G28)
-    set_bed_leveling_enabled(leveling_was_active);
+    #if ENABLED(RESTORE_LEVELING_AFTER_G28_ALWAYS)
+      set_bed_leveling_enabled(true);
+    #else
+      set_bed_leveling_enabled(leveling_was_active);
+    #endif
   #endif
 
   restore_feedrate_and_scaling();
