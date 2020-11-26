@@ -2040,7 +2040,7 @@
  */
 #if HAS_TRINAMIC_CONFIG
 
-  #define COMMON_CURRENT     800  // (mA) RMS current. Multiply by 1.414 for peak current.
+  #define COMMON_CURRENT     700  // (mA) RMS current. Multiply by 1.414 for peak current.
   #define COMMON_MICROSTEPS   16  // 0..256
 
   #define HOLD_MULTIPLIER    0.5  // Scales down the holding current from run current
